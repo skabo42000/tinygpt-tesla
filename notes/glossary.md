@@ -47,3 +47,12 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **Optimizer:** the PyTorch tool that applies the nudges to all parameters (`SGD` today, `AdamW` for the GPT).
 - **`nn.Linear`:** a ready-made "multiply by weights, add bias" layer that holds its own parameters.
 - **The training loop:** forward → loss → zero_grad → backward → step, repeated many times.
+
+## Lesson 3: Scores → probabilities → loss
+
+- **Logits:** the model's raw scores, one per possible next character. They can be any number.
+- **Softmax:** turns scores into probabilities that are all positive and add up to 1. Higher scores get a much bigger share.
+- **Cross-entropy loss:** −ln(probability given to the correct answer). 0 when fully sure and right; large when confident and wrong.
+- **ln(V) baseline:** the loss of a model that knows nothing and gives all V characters equal odds. For our 85 characters it's ln(85) ≈ 4.44, the loss we expect at the very start of training.
+- **Embedding (`nn.Embedding`):** a lookup table with one row of learnable numbers per character.
+- **Sampling (`torch.multinomial`):** picking a character at random, weighted by its probability, like a weighted dice roll. It gives the model variety instead of always choosing the top guess.

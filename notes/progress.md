@@ -11,7 +11,7 @@ Where we are in the course, and the real numbers from our own runs.
 | 0 | Setup | done | PyTorch 2.14.0 (CPU); 1000² matmul 6.4 ms, 2000² 54 ms (8.5×); 85 unique chars |
 | 1 | Tensors & shapes | done | wrap-up: (4,8,32) @ (32,85) -> (4,8,85) = one score per vocab char |
 | 2 | How a model learns | done | found w=2.000, b=1.000 from random start in 100 steps; lr 0.01 too slow, 0.1 good, 1.1 blew up (b = -4218) |
-| 3 | Scores → probabilities → loss | | |
+| 3 | Scores → probabilities → loss | done | know-nothing loss = ln(85) = 4.4427 (our step-0 target) |
 | 4 | Dataset + character tokenizer | | |
 | 5 | Batches | | |
 | 6 | Bigram model | | |
