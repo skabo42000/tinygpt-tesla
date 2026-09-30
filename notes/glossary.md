@@ -35,3 +35,15 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **Matrix multiply rule:** (n, k) @ (k, m) → (n, m). The inner sizes must match and disappear. With 3-D tensors, only the last two dimensions are multiplied; the rest are treated as a batch.
 - **Transpose (`.T`, `.transpose(-2, -1)`):** swap rows and columns.
 - **`.view`:** regroup the same numbers into a new shape without moving them, e.g. (B, T, C) → (B·T, C).
+
+## Lesson 2: How a model learns
+
+- **Parameter:** a number inside the model that training adjusts (like `w` and `b`). Our GPT will have hundreds of thousands.
+- **Loss:** one number measuring how wrong the model is. Lower is better; 0 is perfect.
+- **Mean squared error:** a loss for number predictions: the average of (prediction − truth)².
+- **Gradient:** for each parameter, which direction (and how strongly) nudging it up would change the loss. We move against it.
+- **`loss.backward()`:** makes PyTorch work out the gradient of every parameter automatically.
+- **Learning rate:** the step size of each nudge. Too small is slow; too big overshoots and blows up.
+- **Optimizer:** the PyTorch tool that applies the nudges to all parameters (`SGD` today, `AdamW` for the GPT).
+- **`nn.Linear`:** a ready-made "multiply by weights, add bias" layer that holds its own parameters.
+- **The training loop:** forward → loss → zero_grad → backward → step, repeated many times.

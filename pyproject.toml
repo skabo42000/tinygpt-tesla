@@ -5,6 +5,7 @@ description = "A small GPT language model built from scratch in PyTorch, one les
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "matplotlib>=3.11.2",
     "numpy>=2.5.3",
     "torch>=2.14.0",
 ]
