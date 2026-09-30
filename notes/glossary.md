@@ -56,3 +56,13 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **ln(V) baseline:** the loss of a model that knows nothing and gives all V characters equal odds. For our 85 characters it's ln(85) ≈ 4.44, the loss we expect at the very start of training.
 - **Embedding (`nn.Embedding`):** a lookup table with one row of learnable numbers per character.
 - **Sampling (`torch.multinomial`):** picking a character at random, weighted by its probability, like a weighted dice roll. It gives the model variety instead of always choosing the top guess.
+
+## Lesson 4: Tokenizer
+
+- **Token:** one unit of text the model reads or writes. For us, one character.
+- **Token id:** the number that stands for a token (e.g. `T` = 47).
+- **Tokenizer:** the two-way dictionary between text and token ids. **Encode** = text → ids; **decode** = ids → text.
+- **Vocabulary (V):** all the tokens the model knows. Ours: the 85 characters in Tesla's book. The model can never read or write anything outside it.
+- **Lossless:** decode(encode(text)) gives back exactly the same text.
+- **`stoi` / `itos`:** "string to integer" and "integer to string", the two lookup tables.
+- **Frequency-only baseline:** the loss of a model that only knows how common each character is: 3.05 on Tesla's text.
