@@ -1,4 +1,4 @@
-﻿# Progress
+# Progress
 
 Where we are in the course, and the real numbers from our own runs.
 
@@ -9,7 +9,7 @@ Where we are in the course, and the real numbers from our own runs.
 | # | Lesson | Status | Our numbers |
 |---|---|---|---|
 | 0 | Setup | done | PyTorch 2.14.0 (CPU); 1000² matmul 6.4 ms, 2000² 54 ms (8.5×); 85 unique chars |
-| 1 | Tensors & shapes | | |
+| 1 | Tensors & shapes | done | wrap-up: (4,8,32) @ (32,85) -> (4,8,85) = one score per vocab char |
 | 2 | How a model learns | | |
 | 3 | Scores → probabilities → loss | | |
 | 4 | Dataset + character tokenizer | | |
