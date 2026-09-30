@@ -1,0 +1,14 @@
+{
+  // The Python environment (with PyTorch, ~1 GB) lives outside OneDrive.
+  // This makes `uv` in VS Code terminals use it instead of creating .venv here.
+  "terminal.integrated.env.windows": {
+    "UV_PROJECT_ENVIRONMENT": "C:\\Users\\bosko\\.venvs\\llm-project"
+  },
+  // Notebooks and Python files use that same environment.
+  "python.defaultInterpreterPath": "C:\\Users\\bosko\\.venvs\\llm-project\\Scripts\\python.exe",
+  "python.venvFolders": [".venvs"],
+  // Always open .ipynb files as notebooks, never as raw text.
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
+  }
+}

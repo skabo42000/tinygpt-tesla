@@ -1,0 +1,17 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments (ours lives outside OneDrive, see .vscode/settings.json)
+.venv
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Downloaded data and trained models (big, easy to recreate)
+data/
+checkpoints/
