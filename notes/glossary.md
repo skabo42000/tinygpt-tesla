@@ -85,3 +85,11 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **AdamW:** the optimizer used for GPTs. It adapts the step size for each parameter separately.
 - **`estimate_loss`:** averages the loss over many batches (train and val) for a steady reading, without learning (`eval()`, `no_grad`).
 - **Initialization:** the random starting values of the parameters. Random scores make a fresh model slightly "confidently wrong", so its first loss is a bit above ln(V).
+
+## Lesson 7: The averaging trick
+
+- **Causal / no peeking:** each position may only use itself and earlier positions, never later ones, because when writing text the future doesn't exist yet.
+- **Lower-triangular matrix (`torch.tril`):** ones on and below the diagonal, zeros above. Row t marks which positions t is allowed to see.
+- **Weights matrix (wei):** a (T, T) table; row t says how much of each position to mix into position t. Each row adds up to 1.
+- **Masking (`masked_fill` with −∞):** setting future scores to minus infinity so softmax gives them exactly 0 weight.
+- **Weighted sum (`wei @ x`):** mixes information from the allowed positions in one matrix multiply. The heart of attention.

@@ -15,7 +15,7 @@ Where we are in the course, and the real numbers from our own runs.
 | 4 | Dataset + character tokenizer | done | V=85, 976,605 tokens; lossless round trip; frequency-only loss 3.05 |
 | 5 | Batches | done | train 878,944 / val 97,661 chars; batch (4, 8) = 32 examples |
 | 6 | Bigram model | done | start 4.99 -> val 2.41 in 5000 steps (~20 s); counting bigram 2.406; 7,225 params |
-| 7 | The averaging trick | | |
+| 7 | The averaging trick | done | loop = matmul = masked softmax (allclose True) |
 | 8 | One self-attention head | | |
 | 9 | Multi-head attention + feed-forward | | |
 | 10 | Full GPT block | | |
