@@ -66,3 +66,12 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **Lossless:** decode(encode(text)) gives back exactly the same text.
 - **`stoi` / `itos`:** "string to integer" and "integer to string", the two lookup tables.
 - **Frequency-only baseline:** the loss of a model that only knows how common each character is: 3.05 on Tesla's text.
+
+## Lesson 5: Batches
+
+- **Chunk:** a short piece of the book the model reads at once.
+- **block_size (T):** the chunk length, and the most text the model can ever look back at (its **context**).
+- **Targets (y):** the chunk shifted by one character. At every position, the "right answer" is simply the next character.
+- **Batch (B):** several random chunks stacked into a (B, T) grid, so the model learns from many places at once.
+- **Training / validation split:** 90% of the book to learn from, 10% held back as an "exam" the model never trains on. If the training loss keeps falling but the validation loss rises, the model is memorizing instead of learning (**overfitting**).
+- **`get_batch`:** the function that cuts random chunks and their targets out of the book for every training step.
