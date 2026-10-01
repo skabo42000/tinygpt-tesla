@@ -106,3 +106,12 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **Position embedding:** a learnable vector per position (0..T−1), added to each character's vector so attention knows the order of characters.
 - **`register_buffer`:** stores a fixed tensor (like the triangle mask) inside the model without training it.
 - **Context window:** the most characters the model can look back at (block_size, now 32). `generate` cuts the input to that length.
+
+## Lesson 9: Multi-head attention + feed-forward
+
+- **Multi-head attention:** several smaller heads run side by side, each learning its own kind of search; their outputs are joined (`torch.cat`) back to the full width.
+- **Feed-forward layer:** a small network (widen ×4 → ReLU → shrink back) applied to each character separately, to process what attention gathered.
+- **Communication vs computation:** attention moves information *between* characters; feed-forward *thinks about it* within each character.
+- **ReLU:** keeps positive numbers, turns negatives into 0. The "bend" that lets a network make decisions; without it, stacked Linear layers collapse into one.
+- **Non-linearity / activation function:** the general name for bends like ReLU (GPT-2 uses a smoother one called GELU).
+- **`nn.ModuleList` / `nn.Sequential`:** PyTorch containers for a list of layers, or layers run one after another.
