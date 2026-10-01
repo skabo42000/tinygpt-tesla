@@ -75,3 +75,13 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **Batch (B):** several random chunks stacked into a (B, T) grid, so the model learns from many places at once.
 - **Training / validation split:** 90% of the book to learn from, 10% held back as an "exam" the model never trains on. If the training loss keeps falling but the validation loss rises, the model is memorizing instead of learning (**overfitting**).
 - **`get_batch`:** the function that cuts random chunks and their targets out of the book for every training step.
+
+## Lesson 6: Bigram model
+
+- **Language model:** a model that gives probabilities for the next token, and can write text by repeatedly sampling one.
+- **Bigram model:** predicts the next character from only the current one. An 85 × 85 table of scores.
+- **`nn.Module` / class:** how PyTorch bundles a model: its parameters (`__init__`) plus how to compute the output (`forward`).
+- **`generate`:** write text one token at a time: scores at the last position → softmax → sample → append → repeat.
+- **AdamW:** the optimizer used for GPTs. It adapts the step size for each parameter separately.
+- **`estimate_loss`:** averages the loss over many batches (train and val) for a steady reading, without learning (`eval()`, `no_grad`).
+- **Initialization:** the random starting values of the parameters. Random scores make a fresh model slightly "confidently wrong", so its first loss is a bit above ln(V).
