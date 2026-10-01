@@ -16,7 +16,7 @@ Where we are in the course, and the real numbers from our own runs.
 | 5 | Batches | done | train 878,944 / val 97,661 chars; batch (4, 8) = 32 examples |
 | 6 | Bigram model | done | start 4.99 -> val 2.41 in 5000 steps (~20 s); counting bigram 2.406; 7,225 params |
 | 7 | The averaging trick | done | loop = matmul = masked softmax (allclose True) |
-| 8 | One self-attention head | | |
+| 8 | One self-attention head | done | val 2.31 (bigram 2.41), 9,621 params, ~45 s; start loss 4.48; head looks 71% at itself, 25% at previous char |
 | 9 | Multi-head attention + feed-forward | | |
 | 10 | Full GPT block | | |
 | 11 | Clean package + tests | | |

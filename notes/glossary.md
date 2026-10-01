@@ -93,3 +93,16 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **Weights matrix (wei):** a (T, T) table; row t says how much of each position to mix into position t. Each row adds up to 1.
 - **Masking (`masked_fill` with −∞):** setting future scores to minus infinity so softmax gives them exactly 0 weight.
 - **Weighted sum (`wei @ x`):** mixes information from the allowed positions in one matrix multiply. The heart of attention.
+
+## Lesson 8: Self-attention head
+
+- **Self-attention:** each character decides how much every earlier character matters to it, then takes a weighted mix of their information.
+- **Query (q):** "what am I looking for?" One vector per character.
+- **Key (k):** "what do I contain?" Compared with queries by dot product: a good match gives a high score.
+- **Value (v):** "what do I share if you pick me?" The information that actually gets mixed.
+- **Head:** one complete query/key/value attention unit. Lesson 9 uses several side by side.
+- **head_size (hs):** the length of each q, k, v vector.
+- **Scaling by 1/√hs:** keeps attention scores at a spread of about 1, so softmax stays soft (spread out) at the start instead of locking onto one character.
+- **Position embedding:** a learnable vector per position (0..T−1), added to each character's vector so attention knows the order of characters.
+- **`register_buffer`:** stores a fixed tensor (like the triangle mask) inside the model without training it.
+- **Context window:** the most characters the model can look back at (block_size, now 32). `generate` cuts the input to that length.
