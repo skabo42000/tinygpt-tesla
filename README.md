@@ -176,7 +176,7 @@ Limits: prompts up to 200 characters, 10 requests per minute per visitor, one ge
 **Bosko T.**: founder of [Synq Logic](https://synqlogic.com), where I build AI chat assistants, AI voice
 receptionists and workflow automations for small and mid-sized businesses. This project is my deep dive into how
 large language models work under the hood, from the first tensor to a deployed model. I'm open to new roles;
-let's connect on [LinkedIn](https://www.linkedin.com/in/bosko-tutnjilovic).
+let's connect on [LinkedIn](https://www.linkedin.com/in/bosko-tutnilovic).
 
 ## License
 
