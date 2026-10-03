@@ -22,7 +22,7 @@ Where we are in the course, and the real numbers from our own runs.
 | 11 | Clean package + tests | done | src/tinygpt/{tokenizer,data,model}.py; 8/8 tests pass; params 214,357 by hand = PyTorch (feed-forward 62%); broken mask leaks 0.034 vs 0.0 |
 | 12 | Training run | done | 830,037 params (4 layers, C=128, T=128), 3,000 steps in 37 min; val 1.274 (train 1.122, gap 0.15); still improving at the end |
 | 13 | Experiments | done | 800 steps, C=64: baseline 1.83; no positions +0.11; no residual +1.23 (3.06); no scaling -0.03 (no effect at hs=16); no mask 0.09 but garbage text; 20K chars: no dropout val 2.16->2.52 (overfit), dropout 0.3 val 2.09 |
-| 14 | BPE tokenizer from scratch | | |
+| 14 | BPE tokenizer from scratch | done | 512 tokens learned in 11 s; book 976,605 chars -> 440,673 tokens (2.22 chars/token); first merge ' t'; saved checkpoints/tesla_bpe_512.json; 13/13 tests |
 | 15 | Swap BPE into the GPT | | |
 | 16 | Modern upgrades (optional) | | |
 | 17 | Capstone (optional) | | |

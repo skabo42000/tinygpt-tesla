@@ -155,3 +155,13 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **Early stopping:** keeping the checkpoint with the lowest validation loss (our `tesla_best.pt`), not the last one.
 - **Data leakage / cheating:** the model gets access to the answer during training (like a missing mask). Loss looks amazing, real use is terrible.
 - **Regularization:** anything that discourages memorizing, such as dropout or more data.
+
+## Lesson 14: BPE tokenizer
+
+- **Byte:** a number from 0 to 255. All text is stored as bytes.
+- **UTF-8:** the standard that turns characters into bytes. English letters = 1 byte; ć = 2; Cyrillic = 2 per letter; ⚡ = 3.
+- **Byte-Pair Encoding (BPE):** start from the 256 bytes and repeatedly merge the most common neighbouring pair into a new token. Used by GPT-2, GPT-4 and Claude-style tokenizers.
+- **Merge:** one learned rule, e.g. `' t' + 'he' → ' the'`. Applied in the order learned when encoding.
+- **Pre-split pattern (regex):** splits text into word-like chunks first (word + its leading space, numbers, punctuation) so merges never cross word boundaries.
+- **Compression ratio:** characters per token. Ours: 2.22 on Tesla's book with 512 tokens; GPT-4's tokenizer reads whole words.
+- **`tiktoken`:** OpenAI's tokenizer library, used here to compare with GPT-2 (50,257 tokens) and GPT-4 (`cl100k_base`, ~100,000 tokens).

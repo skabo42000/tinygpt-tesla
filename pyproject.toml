@@ -11,6 +11,8 @@ dependencies = [
     # Intel Macs: torch 2.2.2 is the last build, and it needs numpy 1.x.
     "numpy>=1.26,<2; sys_platform == 'darwin' and platform_machine == 'x86_64'",
     "torch==2.2.2; sys_platform == 'darwin' and platform_machine == 'x86_64'",
+    "regex>=2026.9.29",
+    "tiktoken>=0.14.0",
 ]
 
 [build-system]
