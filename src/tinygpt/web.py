@@ -80,8 +80,8 @@ class GenerateRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     prompt: str = Field("", max_length=200)
     max_tokens: int = Field(120, ge=1, le=250)
-    temperature: float = Field(0.8, ge=0.1, le=1.5)
-    top_k: int | None = Field(None, ge=1, le=512)
+    temperature: float = Field(0.5, ge=0.1, le=1.5)    # safer defaults read best for a model this small
+    top_k: int | None = Field(10, ge=1, le=512)
 
 
 @app.middleware("http")

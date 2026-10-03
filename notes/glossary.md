@@ -19,7 +19,7 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **GPU / CUDA:** an NVIDIA graphics card, and the software PyTorch uses to run on it. It has thousands of small cores, which makes it great for the repeated multiplications neural networks need. This laptop doesn't have one, so we train on the CPU.
 - **Thread:** a parallel lane of work. PyTorch splits a big calculation across several threads.
 - **Matrix multiplication (`@`):** multiplying rows of one grid of numbers against columns of another. It's the core operation inside a GPT.
-- **Virtual environment:** a private folder holding this project's Python and libraries, so other projects can't break it. Ours is at `C:\Users\bosko\.venvs\llm-project`.
+- **Virtual environment:** a private folder holding this project's Python and libraries, so other projects can't break it. Ours is kept outside the OneDrive project folder (see the README).
 - **Kernel (in a notebook):** the Python process that runs your notebook cells. It must point at our virtual environment.
 - **Dataset:** the text the model learns from. For us that's *The Inventions, Researches and Writings of Nikola Tesla* (1894), about 977,000 characters, saved as `data/input.txt`.
 - **Boilerplate:** standard text that isn't part of the actual content, such as Project Gutenberg's license at the top and bottom of every book. We strip it out so the model doesn't learn it.

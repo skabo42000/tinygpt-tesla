@@ -34,3 +34,6 @@ node_modules/
 # The small, final model used by the web app lives in models/ and IS committed.
 data/
 checkpoints/
+
+# Editor settings with machine-specific paths (kept locally, not shared)
+.vscode/

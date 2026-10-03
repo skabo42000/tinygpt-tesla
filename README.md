@@ -1,5 +1,9 @@
 # TinyGPT Tesla: a GPT language model built from scratch
 
+[![tests](https://github.com/skabo42000/tinygpt-tesla/actions/workflows/tests.yml/badge.svg)](https://github.com/skabo42000/tinygpt-tesla/actions/workflows/tests.yml)
+[![live demo](https://img.shields.io/badge/live%20demo-tinygpt--tesla.onrender.com-7cc4ff)](https://tinygpt-tesla.onrender.com)
+[![license: MIT](https://img.shields.io/badge/license-MIT-b28dff)](LICENSE)
+
 A GPT-style language model written from the ground up in **PyTorch** (tokenizer, self-attention, transformer
 blocks, training loop and text generation) and trained on a **laptop CPU** on
 *The Inventions, Researches and Writings of Nikola Tesla* (1894).
@@ -16,6 +20,8 @@ knew: with under a million parameters and one book of training text, it writes p
 
 **Live demo: [tinygpt-tesla.onrender.com](https://tinygpt-tesla.onrender.com)** (free server: the first visit after a
 quiet spell takes up to a minute to wake up; after that it writes in a few seconds)
+
+[![The live demo page](docs/demo.png)](https://tinygpt-tesla.onrender.com)
 
 ---
 
@@ -35,6 +41,8 @@ quiet spell takes up to a minute to wake up; after that it writes in a few secon
 
 All numbers come from real runs on an Intel i5-1235U laptop CPU (no GPU), measured as **bits per character**
 on the same held-out 10% of the book, so models with different tokenizers compare fairly. Lower is better.
+
+![Bits per character for every model in the project](docs/results.png)
 
 | Model | Bits / char | Notes |
 |---|---:|---|
@@ -67,7 +75,8 @@ Training: AdamW, learning-rate warm-up + cosine decay, weight decay, gradient cl
 
 ## The build, step by step
 
-Each notebook in [`notebooks/`](notebooks/) is one lesson, with explanations, tensor-shape diagrams and checks.
+Each notebook in [`notebooks/`](notebooks/) is one lesson, with explanations, tensor-shape diagrams and checks,
+saved **with their outputs** (plots, losses, generated text), so you can read every step's results right on GitHub.
 [`notes/glossary.md`](notes/glossary.md) explains every term; [`notes/progress.md`](notes/progress.md) records every measured result.
 
 | # | Lesson | # | Lesson |
@@ -142,7 +151,8 @@ installs the **CPU-only** PyTorch build, which keeps the server install under 70
 The free server sleeps after 15 minutes without visitors, so the first request afterwards takes up to a minute.
 
 The web API: `GET /health`, `GET /api/info` (model details), `POST /api/generate`
-(`{"prompt": "...", "max_tokens": 1–250, "temperature": 0.1–1.5}`, streams plain text).
+(`{"prompt": "...", "max_tokens": 1–250, "temperature": 0.1–1.5, "top_k": 1–512}`, streams plain text;
+defaults: temperature 0.5 and top_k 10, the settings that read best for a model this small).
 Limits: prompts up to 200 characters, 10 requests per minute per visitor, one generation at a time.
 
 ## Limitations
@@ -158,4 +168,16 @@ Limits: prompts up to 200 characters, 10 requests per minute per visitor, one ge
 - Architecture and lesson sequence inspired by Andrej Karpathy's *Let's build GPT* and *Let's build the GPT Tokenizer*.
 - Training text: *The Inventions, Researches and Writings of Nikola Tesla* by Thomas Commerford Martin (1894),
   public domain, via [Project Gutenberg](https://www.gutenberg.org/ebooks/39272).
-- Built as a guided, hands-on course with Claude (Anthropic) as pair-programmer and tutor.
+- Built as a guided, hands-on course with Claude (Anthropic) as AI pair-programmer and tutor: every lesson was
+  run, measured and understood step by step, which is also how I like to work with AI tools day to day.
+
+## About the author
+
+**Bosko T.**: founder of [Synq Logic](https://synqlogic.com), where I build AI chat assistants, AI voice
+receptionists and workflow automations for small and mid-sized businesses. This project is my deep dive into how
+large language models work under the hood, from the first tensor to a deployed model. I'm open to new roles;
+let's connect on [LinkedIn](https://www.linkedin.com/in/bosko-tutnilovic).
+
+## License
+
+[MIT](LICENSE)

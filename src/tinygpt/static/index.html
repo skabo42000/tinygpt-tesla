@@ -83,15 +83,17 @@
       </div>
       <div>
         <label for="temp">Creativity: <span class="value" id="tempValue"></span></label>
-        <input id="temp" type="range" min="0.3" max="1.3" step="0.1" value="0.8">
+        <input id="temp" type="range" min="0.3" max="1.3" step="0.1" value="0.5">
       </div>
     </div>
     <button class="write" id="write" type="button">Write</button>
-    <div class="output" id="output" aria-live="polite"><span class="placeholder">The model's writing will appear here.</span></div>
+    <div class="output" id="output" aria-live="polite"><span class="placeholder">Example output (press Write for a fresh one):</span>
+<span class="prompt">My experiments with </span>illustrating on high frequency currents of impulses, and a frequency current produced by electrostatic induction experimenters, and the potential of the wires could be course formed, but becomes the same amount of</div>
     <div class="status" id="status"></div>
     <p class="note">It learned how Tesla's writing <em>sounds</em>, not what he knew: expect Tesla-flavoured
-      phrases and invented words, not facts. It runs on a free server, so the first request after a quiet
-      period can take up to a minute while the server wakes up.</p>
+      phrases, not meaning. For scale: GPT-2 used the same design but was 140× larger and read 40,000× more
+      text; this is that design at laptop size (0.9M parameters, one book, 30 minutes of training).
+      It runs on a free server, so the first request after a quiet period can take up to a minute.</p>
   </section>
 
   <section class="card" aria-labelledby="model">
@@ -117,7 +119,10 @@
     </ol>
   </section>
 
-  <footer>Built by Bosko · <a href="https://synqlogic.com" rel="noopener">synqlogic.com</a></footer>
+  <footer>Built by Bosko T. ·
+    <a href="https://www.linkedin.com/in/bosko-tutnilovic" rel="noopener">LinkedIn</a> ·
+    <a href="https://github.com/skabo42000/tinygpt-tesla" rel="noopener">Source code on GitHub</a> ·
+    <a href="https://synqlogic.com" rel="noopener">synqlogic.com</a></footer>
 </main>
 
 <script>
@@ -161,7 +166,8 @@
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: prompt.value, max_tokens: Number(length.value), temperature: Number(temp.value) }),
+        // top_k 10: only the 10 most likely word pieces may be picked, so rare odd picks can't derail the text
+        body: JSON.stringify({ prompt: prompt.value, max_tokens: Number(length.value), temperature: Number(temp.value), top_k: 10 }),
       });
       if (!response.ok) {
         let message = `Something went wrong (error ${response.status}).`;
