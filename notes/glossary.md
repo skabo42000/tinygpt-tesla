@@ -173,3 +173,15 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **Per-token loss trap:** a model with a bigger vocabulary has a higher loss per token, but each token covers more text. Never compare raw losses across tokenizers.
 - **Epoch:** one full pass over the training data. Same steps with BPE = more passes (~31 vs ~14), because the book is shorter in tokens, which means more memorizing.
 - **Generation speed:** BPE writes ~2.2 characters per step, so it writes the same text ~2.4× faster.
+
+## Lesson 16: Modern upgrades
+
+- **Fast attention (`F.scaled_dot_product_attention`):** all heads computed at once as an extra batch dimension. Same math; on GPUs it's much faster and uses far less memory, on our CPU only slightly faster.
+- **Weight tying:** the output layer reuses the token embedding table, saving V × C parameters.
+- **GPT-2 initialization:** weights start small (spread 0.02); layers that add onto the residual path start smaller still (÷ √(2 × layers)). Gives a starting loss right at ln(V).
+- **Learning-rate warm-up:** start with tiny steps for the first ~100 steps, while the model is still random.
+- **Cosine decay:** after warm-up, the learning rate glides down a smooth curve to a small minimum, so the last steps are fine-tuning.
+- **Weight decay:** gently pulls the big weight grids toward zero each step (not biases or LayerNorm). Discourages memorizing.
+- **Gradient norm / clipping:** the overall size of a step's gradient; clipping scales it down to at most 1.0 so a rare odd batch can't throw training off.
+- **Keep-awake request:** the training script asks Windows not to sleep while it runs (closing the lid can still force sleep).
+- **RMSNorm, RoPE, SwiGLU, grouped-query attention:** what newer models (Llama etc.) use instead of LayerNorm, learned positions, ReLU feed-forward and per-head keys/values.

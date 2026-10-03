@@ -24,5 +24,5 @@ Where we are in the course, and the real numbers from our own runs.
 | 13 | Experiments | done | 800 steps, C=64: baseline 1.83; no positions +0.11; no residual +1.23 (3.06); no scaling -0.03 (no effect at hs=16); no mask 0.09 but garbage text; 20K chars: no dropout val 2.16->2.52 (overfit), dropout 0.3 val 2.09 |
 | 14 | BPE tokenizer from scratch | done | 512 tokens learned in 11 s; book 976,605 chars -> 440,673 tokens (2.22 chars/token); first merge ' t'; saved checkpoints/tesla_bpe_512.json; 13/13 tests |
 | 15 | Swap BPE into the GPT | done | same settings, 43 min, 939,776 params: BPE 1.69 bits/char vs character 1.84 (on the same val text); 95% vs 96% real words; writes 2.4x faster; BPE train/val gap larger (~31 passes over the data vs ~14) |
-| 16 | Modern upgrades (optional) | | |
+| 16 | Modern upgrades (optional) | done | --modern BPE run: 1.62 bits/char vs 1.69 (Lesson 15), 32 vs 43 min, 874,240 params (tied); start loss 6.25 = ln(512); fast attention only ~1.0-1.5x on CPU; grad norm above clip limit 1.0 from step ~750; laptop slept once, resumed from step 500 |
 | 17 | Capstone (optional) | | |
