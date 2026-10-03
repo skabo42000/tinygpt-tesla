@@ -14,7 +14,8 @@ Give it the start of a sentence and it continues in Tesla's voice, one word piec
 It learned how Tesla's writing *sounds* (vocabulary, rhythm, his habit of pointing at figures), not what he
 knew: with under a million parameters and one book of training text, it writes plausible-sounding prose, not facts.
 
-**Live demo:** _link added after deployment_
+**Live demo: [tinygpt-tesla.onrender.com](https://tinygpt-tesla.onrender.com)** (free server: the first visit after a
+quiet spell takes up to a minute to wake up; after that it writes in a few seconds)
 
 ---
 
