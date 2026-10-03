@@ -115,3 +115,14 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **ReLU:** keeps positive numbers, turns negatives into 0. The "bend" that lets a network make decisions; without it, stacked Linear layers collapse into one.
 - **Non-linearity / activation function:** the general name for bends like ReLU (GPT-2 uses a smoother one called GELU).
 - **`nn.ModuleList` / `nn.Sequential`:** PyTorch containers for a list of layers, or layers run one after another.
+
+## Lesson 10: The full GPT
+
+- **Block:** one round of "talk, then think": `x = x + attention(LayerNorm(x))`, then `x = x + feedforward(LayerNorm(x))`. A GPT stacks several.
+- **Residual connection (`x = x + layer(x)`):** each layer adds a correction instead of replacing the information. The original always passes straight through, giving the learning signal a "highway" back through deep stacks.
+- **LayerNorm:** re-centers each character's numbers to average 0 and spread 1 (plus two learnable knobs). Keeps numbers healthy through many layers.
+- **Pre-norm:** applying LayerNorm *before* each sub-layer, as GPT-2 does.
+- **Dropout:** during training, randomly zeroes a fraction of numbers (and scales up the rest), so the model can't rely on any single one. Switched off in `eval` mode.
+- **Projection (`proj`):** a Linear layer that mixes the joined heads' outputs before adding them back to the residual path.
+- **n_layer / n_head / n_embd:** how many blocks, heads per block, and numbers per character. The main size knobs of a GPT.
+- **Overfitting gap:** the difference between training and validation loss. A growing gap means the model is starting to memorize.

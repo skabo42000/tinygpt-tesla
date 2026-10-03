@@ -4,6 +4,9 @@
   "terminal.integrated.env.windows": {
     "UV_PROJECT_ENVIRONMENT": "C:\\Users\\bosko\\.venvs\\llm-project"
   },
+  "terminal.integrated.env.osx": {
+    "UV_PROJECT_ENVIRONMENT": "/Users/boskotutnjilovic/.venvs/llm-project"
+  },
   // Notebooks and Python files use that same environment.
   "python.defaultInterpreterPath": "C:\\Users\\bosko\\.venvs\\llm-project\\Scripts\\python.exe",
   "python.venvFolders": [".venvs"],
