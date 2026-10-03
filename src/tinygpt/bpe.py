@@ -95,3 +95,23 @@ class BPETokenizer:
         with open(path, encoding="utf-8") as f:
             data = json.load(f)
         return cls({(a, b): i for a, b, i in data["merges"]}, data["pattern"])
+
+
+def main():
+    """Learn the BPE tokenizer from data/input.txt and save it where train.py expects it.
+
+    Run:  uv run python -m tinygpt.bpe
+    """
+    from tinygpt.data import PROJECT_ROOT, load_text
+
+    out = PROJECT_ROOT / "checkpoints" / "tesla_bpe_512.json"
+    out.parent.mkdir(exist_ok=True)
+    text = load_text()
+    tokenizer = BPETokenizer.train(text, vocab_size=512)
+    tokenizer.save(out)
+    print(f"Learned {len(tokenizer.merges)} merges; {len(text) / len(tokenizer.encode(text)):.2f} "
+          f"characters per token. Saved {out}")
+
+
+if __name__ == "__main__":
+    main()

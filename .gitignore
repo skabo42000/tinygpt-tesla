@@ -8,11 +8,29 @@ wheels/
 
 # Virtual environments (ours lives outside OneDrive, see .vscode/settings.json)
 .venv
+venv/
 
 # Jupyter and pytest
 .ipynb_checkpoints/
 .pytest_cache/
 
-# Downloaded data and trained models (big, easy to recreate)
+# Secrets and credentials: never commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+secrets*.json
+
+# Logs
+*.log
+logs/
+
+# Node (not used, but excluded in case tooling adds it)
+node_modules/
+
+# Downloaded data and training checkpoints (big, easy to recreate).
+# The small, final model used by the web app lives in models/ and IS committed.
 data/
 checkpoints/

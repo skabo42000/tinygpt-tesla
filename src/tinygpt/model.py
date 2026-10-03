@@ -168,6 +168,12 @@ class GPT(nn.Module):
         temperature < 1: safer, more repetitive; > 1: more adventurous, more mistakes.
         top_k: only the k most likely tokens may be picked at each step.
         """
+        new = list(self.generate_stream(idx, max_new_tokens, temperature, top_k))
+        return torch.cat([idx, torch.stack(new, dim=1)], dim=1) if new else idx
+
+    @torch.no_grad()
+    def generate_stream(self, idx, max_new_tokens, temperature=1.0, top_k=None):
+        """Same as generate, but hands back each new token as soon as it's picked: (B,) per step."""
         for _ in range(max_new_tokens):
             logits, _ = self(idx[:, -self.config.block_size :])
             logits = logits[:, -1, :] / temperature                     # (B, V)
@@ -175,5 +181,6 @@ class GPT(nn.Module):
                 kth_best = torch.topk(logits, min(top_k, logits.size(-1))).values[:, [-1]]
                 logits = logits.masked_fill(logits < kth_best, float("-inf"))
             probs = F.softmax(logits, dim=-1)
-            idx = torch.cat([idx, torch.multinomial(probs, 1)], dim=1)
-        return idx
+            nxt = torch.multinomial(probs, 1)                           # (B, 1)
+            idx = torch.cat([idx, nxt], dim=1)
+            yield nxt[:, 0]

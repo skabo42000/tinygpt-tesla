@@ -13,6 +13,8 @@ dependencies = [
     "torch==2.2.2; sys_platform == 'darwin' and platform_machine == 'x86_64'",
     "regex>=2026.9.29",
     "tiktoken>=0.14.0",
+    "fastapi>=0.142.2",
+    "uvicorn[standard]>=0.54.0",
 ]
 
 [build-system]
@@ -25,6 +27,7 @@ link-mode = "copy"
 
 [dependency-groups]
 dev = [
+    "httpx2>=2.13.1",
     "ipykernel>=7.4.0",
     "pytest>=9.1.1",
 ]

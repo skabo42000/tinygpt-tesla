@@ -1,0 +1,14 @@
+# Render deployment for the web demo (free plan). The service was created with these same settings.
+services:
+  - type: web
+    name: tinygpt-tesla
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn tinygpt.web:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHONPATH        # import the tinygpt package straight from src/
+        value: src
+      - key: TORCH_THREADS     # the free server has a fraction of one CPU
+        value: "1"
