@@ -146,3 +146,12 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **Temperature:** divide the scores by T before softmax. Below 1: safer and more repetitive; above 1: more adventurous with more mistakes. It only matters where the model is unsure.
 - **Top-k:** only the k most likely tokens may be picked; the rest are set to −∞. Stops rare bad picks from derailing the text.
 - **Prompt:** the starting text the model continues from.
+
+## Lesson 13: Experiments
+
+- **Ablation:** removing one part of a model, keeping everything else identical, and measuring the difference. Shows what each part is worth.
+- **Controlled experiment:** same model size, seed, data and steps; only one thing changes.
+- **Overfitting:** training loss keeps falling while validation loss turns around and rises. The model memorizes instead of learning general patterns.
+- **Early stopping:** keeping the checkpoint with the lowest validation loss (our `tesla_best.pt`), not the last one.
+- **Data leakage / cheating:** the model gets access to the answer during training (like a missing mask). Loss looks amazing, real use is terrible.
+- **Regularization:** anything that discourages memorizing, such as dropout or more data.
