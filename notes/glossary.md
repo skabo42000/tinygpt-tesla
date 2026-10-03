@@ -126,3 +126,13 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **Projection (`proj`):** a Linear layer that mixes the joined heads' outputs before adding them back to the residual path.
 - **n_layer / n_head / n_embd:** how many blocks, heads per block, and numbers per character. The main size knobs of a GPT.
 - **Overfitting gap:** the difference between training and validation loss. A growing gap means the model is starting to memorize.
+
+## Lesson 11: Package + tests
+
+- **Package:** code organized in files (`src/tinygpt/`) that notebooks and scripts import, so there's one tested version instead of copies.
+- **`GPTConfig`:** all the model's size settings in one place (V, T, C, heads, layers, dropout).
+- **Parameter budget:** most parameters sit in the feed-forward layers (~62%) and attention q/k/v (~23%). Roughly 12 × C² per block.
+- **Test (pytest):** a small function that checks one thing and fails loudly if it breaks. Run all of them with `uv run pytest`.
+- **Causality test ("no peeking"):** change one token and check that predictions *before* it don't move at all.
+- **Silent bug:** a bug that doesn't crash and may even make numbers look better (like a broken mask). Only a targeted test catches it.
+- **Overfit-one-batch check:** if the model can't memorize a single batch, something is wired wrong.

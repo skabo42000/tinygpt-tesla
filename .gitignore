@@ -9,8 +9,9 @@ wheels/
 # Virtual environments (ours lives outside OneDrive, see .vscode/settings.json)
 .venv
 
-# Jupyter
+# Jupyter and pytest
 .ipynb_checkpoints/
+.pytest_cache/
 
 # Downloaded data and trained models (big, easy to recreate)
 data/
