@@ -1,7 +1,8 @@
-"""Train the GPT on Tesla's text and save checkpoints (Lesson 12).
+"""Train the GPT on Tesla's text and save checkpoints (Lessons 12 and 15).
 
 Run:  uv run python -m tinygpt.train              (fresh run, ~40 min on the laptop CPU)
       uv run python -m tinygpt.train --resume     (continue after stopping with Ctrl+C)
+      uv run python -m tinygpt.train --tokenizer bpe --name tesla_bpe   (word-piece tokens, Lesson 15)
       uv run python -m tinygpt.train --help       (all settings)
 """
 import argparse
@@ -11,11 +12,27 @@ from dataclasses import asdict
 
 import torch
 
+from tinygpt.bpe import BPETokenizer
 from tinygpt.data import PROJECT_ROOT, get_batch, load_text, split_data
 from tinygpt.model import GPT, GPTConfig
 from tinygpt.tokenizer import CharTokenizer
 
 CHECKPOINT_DIR = PROJECT_ROOT / "checkpoints"
+DEFAULT_BPE = CHECKPOINT_DIR / "tesla_bpe_512.json"
+
+
+def tokenizer_state(tokenizer):
+    """What we store in a checkpoint so the exact tokenizer can be rebuilt."""
+    if isinstance(tokenizer, BPETokenizer):
+        return {"type": "bpe", "pattern": tokenizer.pattern,
+                "merges": [[a, b, i] for (a, b), i in tokenizer.merges.items()]}
+    return {"type": "char", "chars": tokenizer.chars}
+
+
+def tokenizer_from_state(state):
+    if state["type"] == "bpe":
+        return BPETokenizer({(a, b): i for a, b, i in state["merges"]}, state["pattern"])
+    return CharTokenizer(state["chars"])
 
 
 def parse_args():
@@ -33,6 +50,8 @@ def parse_args():
     p.add_argument("--seed", type=int, default=1337)
     p.add_argument("--name", default="tesla", help="checkpoint name: checkpoints/<name>.pt")
     p.add_argument("--resume", action="store_true", help="continue from checkpoints/<name>.pt")
+    p.add_argument("--tokenizer", choices=["char", "bpe"], default="char")
+    p.add_argument("--bpe-path", default=str(DEFAULT_BPE), help="BPE tokenizer saved in Lesson 14")
     return p.parse_args()
 
 
@@ -53,7 +72,7 @@ def save_checkpoint(path, model, optimizer, tokenizer, step, history, best_val, 
             "model": model.state_dict(),
             "optimizer": optimizer.state_dict(),
             "config": asdict(model.config),
-            "chars": tokenizer.chars,
+            "tokenizer": tokenizer_state(tokenizer),
             "step": step,
             "history": history,
             "best_val": best_val,
@@ -69,7 +88,11 @@ def load_model(path):
     model = GPT(GPTConfig(**ckpt["config"]))
     model.load_state_dict(ckpt["model"])
     model.eval()
-    return model, CharTokenizer(ckpt["chars"]), ckpt
+    if "tokenizer" in ckpt:
+        tokenizer = tokenizer_from_state(ckpt["tokenizer"])
+    else:                                       # Lesson 12 checkpoints stored just the characters
+        tokenizer = CharTokenizer(ckpt["chars"])
+    return model, tokenizer, ckpt
 
 
 def main():
@@ -81,7 +104,10 @@ def main():
     best_path = CHECKPOINT_DIR / f"{args.name}_best.pt"    # lowest validation loss so far
 
     text = load_text()
-    tokenizer = CharTokenizer.from_text(text)
+    if args.tokenizer == "bpe":
+        tokenizer = BPETokenizer.load(args.bpe_path)
+    else:
+        tokenizer = CharTokenizer.from_text(text)
     train_data, val_data = split_data(tokenizer.encode(text))
     splits = {"train": train_data, "val": val_data}
 

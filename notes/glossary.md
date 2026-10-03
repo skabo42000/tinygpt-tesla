@@ -165,3 +165,11 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **Pre-split pattern (regex):** splits text into word-like chunks first (word + its leading space, numbers, punctuation) so merges never cross word boundaries.
 - **Compression ratio:** characters per token. Ours: 2.22 on Tesla's book with 512 tokens; GPT-4's tokenizer reads whole words.
 - **`tiktoken`:** OpenAI's tokenizer library, used here to compare with GPT-2 (50,257 tokens) and GPT-4 (`cl100k_base`, ~100,000 tokens).
+
+## Lesson 15: Characters vs word pieces
+
+- **Bits per character (BPC):** total loss over a text ÷ (number of characters × ln 2). A fair score for models with different tokenizers. Roughly: yes/no questions needed per character. Lower is better.
+- **Nats vs bits:** our loss uses the natural log (nats); dividing by ln 2 ≈ 0.693 converts to bits.
+- **Per-token loss trap:** a model with a bigger vocabulary has a higher loss per token, but each token covers more text. Never compare raw losses across tokenizers.
+- **Epoch:** one full pass over the training data. Same steps with BPE = more passes (~31 vs ~14), because the book is shorter in tokens, which means more memorizing.
+- **Generation speed:** BPE writes ~2.2 characters per step, so it writes the same text ~2.4× faster.

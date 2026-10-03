@@ -24,7 +24,7 @@ def main():
     if args.seed is not None:
         torch.manual_seed(args.seed)
     model, tokenizer, _ = load_model(args.checkpoint)
-    unknown = sorted(set(args.prompt) - set(tokenizer.chars))
+    unknown = sorted(set(args.prompt) - set(getattr(tokenizer, "chars", args.prompt)))   # BPE knows every character
     if unknown:
         sys.exit(f"The prompt contains characters the model doesn't know: {unknown}")
 
