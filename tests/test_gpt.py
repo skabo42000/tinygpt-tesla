@@ -91,6 +91,14 @@ def test_parameter_count_matches_formula():
         assert GPT(config).num_params() == count_params_by_hand(config)
 
 
+def test_top_k_one_always_picks_the_most_likely_token():
+    model = GPT(SMALL).eval()
+    start = torch.zeros((1, 1), dtype=torch.long)
+    first = model.generate(start, max_new_tokens=10, top_k=1)
+    second = model.generate(start, max_new_tokens=10, top_k=1)
+    assert torch.equal(first, second), "top_k=1 leaves only one choice, so no randomness"
+
+
 def test_generate_adds_tokens_and_handles_long_input():
     model = GPT(SMALL).eval()
     start = torch.zeros((1, SMALL.block_size + 5), dtype=torch.long)   # longer than the context

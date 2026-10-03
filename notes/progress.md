@@ -20,7 +20,7 @@ Where we are in the course, and the real numbers from our own runs.
 | 9 | Multi-head attention + feed-forward | done | val 1.90 (one head 2.31), 17,973 params, ~70 s; heads: self / 1-back / self / spread-out |
 | 10 | Full GPT block | done | 214,357 params (4 layers, 4 heads, C=64, T=64); val 1.51 after 2,500 steps (~6.5 min); a 5,000-step test reached 1.40 (~20 min); train/val gap ~0.11 |
 | 11 | Clean package + tests | done | src/tinygpt/{tokenizer,data,model}.py; 8/8 tests pass; params 214,357 by hand = PyTorch (feed-forward 62%); broken mask leaks 0.034 vs 0.0 |
-| 12 | Training run | | |
+| 12 | Training run | done | 830,037 params (4 layers, C=128, T=128), 3,000 steps in 37 min; val 1.274 (train 1.122, gap 0.15); still improving at the end |
 | 13 | Experiments | | |
 | 14 | BPE tokenizer from scratch | | |
 | 15 | Swap BPE into the GPT | | |

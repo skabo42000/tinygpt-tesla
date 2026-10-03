@@ -110,9 +110,18 @@ class GPT(nn.Module):
         return logits, loss
 
     @torch.no_grad()
-    def generate(self, idx, max_new_tokens):
+    def generate(self, idx, max_new_tokens, temperature=1.0, top_k=None):
+        """Write max_new_tokens more tokens (Lesson 12).
+
+        temperature < 1: safer, more repetitive; > 1: more adventurous, more mistakes.
+        top_k: only the k most likely tokens may be picked at each step.
+        """
         for _ in range(max_new_tokens):
             logits, _ = self(idx[:, -self.config.block_size :])
-            probs = F.softmax(logits[:, -1, :], dim=-1)
+            logits = logits[:, -1, :] / temperature                     # (B, V)
+            if top_k is not None:
+                kth_best = torch.topk(logits, min(top_k, logits.size(-1))).values[:, [-1]]
+                logits = logits.masked_fill(logits < kth_best, float("-inf"))
+            probs = F.softmax(logits, dim=-1)
             idx = torch.cat([idx, torch.multinomial(probs, 1)], dim=1)
         return idx

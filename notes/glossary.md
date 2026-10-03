@@ -136,3 +136,13 @@ Plain-English meanings of every term we meet. It grows with each lesson.
 - **Causality test ("no peeking"):** change one token and check that predictions *before* it don't move at all.
 - **Silent bug:** a bug that doesn't crash and may even make numbers look better (like a broken mask). Only a targeted test catches it.
 - **Overfit-one-batch check:** if the model can't memorize a single batch, something is wired wrong.
+
+## Lesson 12: Training run + controlling the writing
+
+- **Training script:** training as a program run from the terminal (`uv run python -m tinygpt.train`) instead of a notebook cell, so long runs are safe and repeatable.
+- **Checkpoint:** a file holding the model's numbers (plus optimizer state, settings, vocabulary and history), saved during training. `tesla.pt` = latest, `tesla_best.pt` = lowest validation loss.
+- **Resume:** continue training from the latest checkpoint after stopping (`--resume`).
+- **Step:** one batch through the 5-step training loop. Our run: 3,000 steps × 32 chunks × 128 characters ≈ 12 million characters seen, about 14 passes over the training text.
+- **Temperature:** divide the scores by T before softmax. Below 1: safer and more repetitive; above 1: more adventurous with more mistakes. It only matters where the model is unsure.
+- **Top-k:** only the k most likely tokens may be picked; the rest are set to −∞. Stops rare bad picks from derailing the text.
+- **Prompt:** the starting text the model continues from.
