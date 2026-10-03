@@ -25,4 +25,5 @@ Where we are in the course, and the real numbers from our own runs.
 | 14 | BPE tokenizer from scratch | done | 512 tokens learned in 11 s; book 976,605 chars -> 440,673 tokens (2.22 chars/token); first merge ' t'; saved checkpoints/tesla_bpe_512.json; 13/13 tests |
 | 15 | Swap BPE into the GPT | done | same settings, 43 min, 939,776 params: BPE 1.69 bits/char vs character 1.84 (on the same val text); 95% vs 96% real words; writes 2.4x faster; BPE train/val gap larger (~31 passes over the data vs ~14) |
 | 16 | Modern upgrades (optional) | done | --modern BPE run: 1.62 bits/char vs 1.69 (Lesson 15), 32 vs 43 min, 874,240 params (tied); start loss 6.25 = ln(512); fast attention only ~1.0-1.5x on CPU; grad norm above clip limit 1.0 from step ~750; laptop slept once, resumed from step 500 |
-| 17 | Capstone (optional) | | |
+| 17 | Capstone (optional) | skipped | |
+| 18 | Online: GitHub + web demo | done | private repo skabo42000/tinygpt-tesla; FastAPI streaming demo live at https://tinygpt-tesla.onrender.com (Render free); 120 tokens in ~3 s on the free server; 30/30 tests |
