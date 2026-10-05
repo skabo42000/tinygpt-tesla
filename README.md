@@ -144,7 +144,13 @@ uv run python -m tinygpt.export                               # slim copy into m
 > On the original Windows machine the project folder sits inside OneDrive, so the environment is kept outside it
 > (`UV_PROJECT_ENVIRONMENT`, set for VS Code in `.vscode/settings.json`). Elsewhere, plain `uv sync` is all you need.
 
-## Deployment
+## Security and model files
+
+Read [SECURITY.md](SECURITY.md). The app generates locally and needs no external AI key. Input limits, a single generation guard and per-process request limits bound demo usage; they are not a distributed quota system.
+
+Checkpoints contain Python objects and are loaded with `torch.load(..., weights_only=False)`. Load only files you created or trust; an untrusted checkpoint can execute code. The supplied model's SHA-256 is recorded in [`models/SHA256SUMS`](models/SHA256SUMS). Verify it before loading; it confirms file integrity against this repository, not who originally produced a model. There is no public model-upload endpoint.
+
+## Hosting
 
 The demo runs on Render's free tier (settings in [`render.yaml`](render.yaml)). [`requirements.txt`](requirements.txt)
 installs the **CPU-only** PyTorch build, which keeps the server install under 700 MB instead of several GB of GPU libraries.
