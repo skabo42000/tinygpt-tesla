@@ -10,10 +10,10 @@ client = TestClient(web.app)
 @pytest.fixture(autouse=True)
 def fresh_limits():
     web.recent_requests.clear()
-    web.writer.release()
+    web.writer = web.OneAtATime()
     yield
     web.recent_requests.clear()
-    web.writer.release()
+    web.writer = web.OneAtATime()
 
 
 def test_health():
@@ -68,7 +68,10 @@ def test_rate_limit_per_visitor():
     assert r.status_code == 429 and "Too many" in r.json()["detail"]
 
 
-def test_stuck_writing_slot_frees_itself():
-    slot = web.OneAtATime(timeout=0)
-    assert slot.try_acquire()
-    assert slot.try_acquire(), "a slot older than the timeout counts as free"
+def test_running_generation_keeps_exclusive_ownership():
+    slot = web.OneAtATime()
+    owner = slot.try_acquire()
+    assert owner is not None
+    assert slot.try_acquire() is None
+    assert slot.release(owner)
+    assert slot.try_acquire() is not None

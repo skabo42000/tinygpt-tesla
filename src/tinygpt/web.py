@@ -4,7 +4,6 @@ Run locally:  uv run uvicorn tinygpt.web:app --port 8000     then open http://lo
 """
 import codecs
 import os
-import threading
 import time
 from collections import defaultdict, deque
 from pathlib import Path
@@ -14,6 +13,9 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, StreamingResponse
 from pydantic import BaseModel, ConfigDict, Field
 
+from starlette.background import BackgroundTask
+
+from tinygpt.concurrency import OneAtATime
 from tinygpt.export import DEFAULT_MODEL
 from tinygpt.train import load_model
 
@@ -25,27 +27,6 @@ if "TORCH_THREADS" in os.environ:                                  # 1 on the sm
 
 model, tokenizer, checkpoint = load_model(MODEL_PATH)
 app = FastAPI(title="TinyGPT Tesla", docs_url=None, redoc_url=None, openapi_url=None)
-
-
-class OneAtATime:
-    """The free server has a fraction of one CPU: write one answer at a time.
-    A slot that was never released (e.g. a dropped connection) frees itself after `timeout` seconds."""
-
-    def __init__(self, timeout=120):
-        self.timeout = timeout
-        self._lock = threading.Lock()
-        self._since = None
-
-    def try_acquire(self):
-        with self._lock:
-            if self._since is not None and time.monotonic() - self._since < self.timeout:
-                return False
-            self._since = time.monotonic()
-            return True
-
-    def release(self):
-        with self._lock:
-            self._since = None
 
 
 writer = OneAtATime()
@@ -126,7 +107,9 @@ def generate(req: GenerateRequest, request: Request):
         ids = tokenizer.encode(req.prompt or "\n")
     except KeyError:
         raise HTTPException(400, "The prompt contains characters this model doesn't know.")
-    if not writer.try_acquire():
+    slot = writer
+    owner = slot.try_acquire()
+    if owner is None:
         raise HTTPException(429, "The model is busy writing for someone else. Try again in a few seconds.")
 
     def stream():
@@ -139,7 +122,8 @@ def generate(req: GenerateRequest, request: Request):
                     yield piece
             yield decoder.decode(b"", final=True)
         finally:
-            writer.release()
+            slot.release(owner)
 
     return StreamingResponse(stream(), media_type="text/plain; charset=utf-8",
-                             headers={"Cache-Control": "no-store"})
+                             headers={"Cache-Control": "no-store"},
+                             background=BackgroundTask(slot.release, owner))
