@@ -27,14 +27,14 @@ quiet spell takes up to a minute to wake up; after that it writes in a few secon
 
 ## What this project shows
 
-- **Every part of a GPT implemented by hand:** character and byte-pair-encoding (BPE) tokenizers, causal
+- **Explicit GPT components in an AI-assisted learning project:** character and byte-pair-encoding (BPE) tokenizers, causal
   self-attention, multi-head attention, feed-forward layers, residual connections, LayerNorm, dropout,
   temperature and top-k sampling.
 - **Measured progress:** 17 lesson notebooks build the model one idea at a time, and every step is
   measured on held-out text, from random guessing (6.41 bits per character) down to 1.62.
 - **Experiments (ablations):** removing one component at a time shows what each is worth, e.g. without
   residual connections a 4-layer model learns no more than plain character frequencies.
-- **Production habits:** a tested Python package (30 automated tests), a training script with checkpoints,
+- **Production habits:** a tested Python package (33 automated tests), a training script with checkpoints,
   resume and early stopping, and a streaming web app with input validation, rate limiting and security headers.
 
 ## Results
@@ -124,7 +124,7 @@ Requires [uv](https://docs.astral.sh/uv/).
 
 ```bash
 uv sync                                         # install everything
-uv run pytest                                   # run the 30 tests
+uv run pytest                                   # run the tests
 uv run uvicorn tinygpt.web:app --port 8000      # web demo at http://localhost:8000
 
 uv run python -m tinygpt.sample --checkpoint models/tesla_modern.pt --prompt "The induction coil " --temperature 0.8
@@ -141,8 +141,7 @@ uv run python -m tinygpt.train --resume --name tesla_modern   # continue after C
 uv run python -m tinygpt.export                               # slim copy into models/
 ```
 
-> On the original Windows machine the project folder sits inside OneDrive, so the environment is kept outside it
-> (`UV_PROJECT_ENVIRONMENT`, set for VS Code in `.vscode/settings.json`). Elsewhere, plain `uv sync` is all you need.
+> Keep the environment outside OneDrive where needed. Select `UV_PROJECT_ENVIRONMENT` explicitly for this project only (Mac: `~/.venvs/llm-project`); an IDE terminal can inherit another project's setting. Verify the target before `uv sync`. For disposable checks, select a separate environment.
 
 ## Security and model files
 
